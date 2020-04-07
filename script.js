@@ -11,3 +11,111 @@
 </ol>
 <img src="${}">
 */
+
+window.addEventListener("load", function(){
+   
+   fetch("https://handlers.education.launchcode.org/static/planets.json").then( function(response) {
+               response.json().then( function(json) {
+                  let missionTarget = document.getElementById("missionTarget");
+                  // Add HTML that includes the JSON data
+                  missionTarget.innerHTML = `
+                  <h2>Mission Destination</h2>
+                  <ol>
+                     <li>Name: ${json[0].name}</li>
+                     <li>Diameter: ${json[0].diameter}</li>
+                     <li>Star: ${json[0].star}</li>
+                     <li>Distance from Earth: ${json[0].distance}</li>
+                     <li>Number of Moons: ${json[0].moons}</li>
+                  </ol>
+                  <img src="${json[0].image}">
+                  `;
+               });
+            });
+
+   let form = document.querySelector("form");
+   let faultyItems = document.getElementById('faultyItems');
+   
+   form.addEventListener("submit", function(event) {
+      let pilotName = document.querySelector("input[name=pilotName]");
+      let copilotName = document.querySelector("input[name=copilotName]");
+      let fuelLevel = document.querySelector("input[name=fuelLevel]");
+      let cargoMass = document.querySelector("input[name=cargoMass]");
+      
+      if (pilotName.value === "" || copilotName.value === "" || fuelLevel.value === "" || cargoMass.value === "") {
+         console.log(pilotName.value);
+         console.log(copilotName.value);
+         console.log(cargoMass.value);
+         console.log(fuelLevel.value);
+         alert("All fields are required!");
+               // stop the form submission
+         event.preventDefault();
+      }
+
+      if(isNaN(Number(cargoMass.value)) || isNaN(Number(fuelLevel.value))){
+         console.log(cargoMass.value);
+         console.log(fuelLevel.value);
+         alert("Cargo Mass and Fuel level must have only numbers");
+         event.preventDefault();
+      }
+
+      
+      /*if(isNaN(Number(fuelLevel.value))){
+         alert("Fuel level must have only numbers");
+         event.preventDefault();
+      }*/
+
+      //this is not working...
+      /*if(typeof (pilotName.value) != 'string' || typeof (copilotName.value) !='string'){
+             
+         alert("pilot name and copilot name must containg only alphabets!");
+         event.preventDefault();
+      }*/
+      
+      var letters = /^[A-Za-z]+$/;
+      if((pilotName.value.match(letters)) === false  || (copilotName.value.match(letters)) === false){
+         console.log(pilotName.value);
+         console.log(copilotName.value);
+         alert("pilot name and copilot name must containg only alphabets!");
+         event.preventDefault();
+      }
+
+      let launchStatus = document.getElementById('launchStatus');
+      let fuelStatus = document.getElementById('fuelStatus');         
+      let cargoStatus= document.getElementById('cargoStatus');
+      let pilotStatus= document.getElementById('pilotStatus');
+      let copilotStatus= document.getElementById('copilotStatus');
+      
+      pilotStatus = `Pilot ${pilotName.value} is ready for launch`;
+      copilotStatus = `CoPilot ${copilotName.value} is ready for launch`;
+      
+   if(Number(fuelLevel.value) >= 10000 && Number(cargoMass.value <= 10000)){
+      faultyItems.style.visibility = "visible";
+      launchStatus.style.color = 'green';
+      launchStatus.textContent = "Shuttle is ready for launch";
+       //  event.preventDefault();
+
+   } else {    
+
+      if(Number(fuelLevel.value) <10000){
+         faultyItems.style.visibility = "visible";
+         fuelStatus.textContent = "not enough fuel for the journey";
+         launchStatus.style.color = 'red';
+         launchStatus.textContent = "Shuttle not ready for launch";
+         event.preventDefault();
+      }
+      
+
+      if (Number(cargoMass.value > 10000)){
+         faultyItems.style.visibility = "visible";
+         cargoStatus.textContent = "there is too much mass for the shuttle to take off";
+         launchStatus.style.color = "red";
+         launchStatus.textContent = "Shuttle not ready for launch";
+         event.preventDefault();
+      }
+
+   }
+      
+   });  
+
+
+});

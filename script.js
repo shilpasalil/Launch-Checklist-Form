@@ -85,8 +85,8 @@ window.addEventListener("load", function(){
       let pilotStatus= document.getElementById('pilotStatus');
       let copilotStatus= document.getElementById('copilotStatus');
       
-      pilotStatus = `Pilot ${pilotName.value} is ready for launch`;
-      copilotStatus = `CoPilot ${copilotName.value} is ready for launch`;
+      pilotStatus.textContent = `Pilot ${pilotName.value} is ready for launch`;
+      copilotStatus.textContent = `CoPilot ${copilotName.value} is ready for launch`;
       
    if(Number(fuelLevel.value) >= 10000 && Number(cargoMass.value <= 10000)){
       faultyItems.style.visibility = "visible";

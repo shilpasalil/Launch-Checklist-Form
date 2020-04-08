@@ -88,24 +88,29 @@ window.addEventListener("load", function(){
       pilotStatus.textContent = `Pilot ${pilotName.value} is ready for launch`;
       copilotStatus.textContent = `CoPilot ${copilotName.value} is ready for launch`;
       
-   if(Number(fuelLevel.value) >= 10000 && Number(cargoMass.value <= 10000)){
+/*   if(Number(fuelLevel.value) >= 10000 && Number(cargoMass.value <= 10000)){
       faultyItems.style.visibility = "visible";
       launchStatus.style.color = 'green';
       launchStatus.textContent = "Shuttle is ready for launch";
        //  event.preventDefault();
 
    } else {    
+*/
+      let isFuelLevelEnough = true;
 
       if(Number(fuelLevel.value) <10000){
+         isFuelLevelEnough = false;
          faultyItems.style.visibility = "visible";
          fuelStatus.textContent = "not enough fuel for the journey";
          launchStatus.style.color = 'red';
          launchStatus.textContent = "Shuttle not ready for launch";
          event.preventDefault();
       }
-      
+
+      let isCargoMassRight = true;
 
       if (Number(cargoMass.value > 10000)){
+         isCargoMassRight = false;
          faultyItems.style.visibility = "visible";
          cargoStatus.textContent = "there is too much mass for the shuttle to take off";
          launchStatus.style.color = "red";
@@ -113,7 +118,14 @@ window.addEventListener("load", function(){
          event.preventDefault();
       }
 
-   }
+      if (isCargoMassRight === true && isFuelLevelEnough === true){
+         faultyItems.style.visibility = "visible";
+         launchStatus.style.color = 'green';
+         launchStatus.textContent = "Shuttle is ready for launch";
+         event.preventDefault();   
+      }
+
+  // }
       
    });  
 

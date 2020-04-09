@@ -49,6 +49,9 @@ window.addEventListener("load", function(){
          alert("All fields are required!");
                // stop the form submission
          event.preventDefault();
+         return;
+         //window.history.back();
+         //returnToPreviousPage();
       }
 
       if(isNaN(Number(cargoMass.value)) || isNaN(Number(fuelLevel.value))){
@@ -56,28 +59,24 @@ window.addEventListener("load", function(){
          console.log(fuelLevel.value);
          alert("Cargo Mass and Fuel level must have only numbers");
          event.preventDefault();
+         return;
       }
-
-      
-      /*if(isNaN(Number(fuelLevel.value))){
-         alert("Fuel level must have only numbers");
-         event.preventDefault();
-      }*/
-
-      //this is not working...
-      /*if(typeof (pilotName.value) != 'string' || typeof (copilotName.value) !='string'){
-             
-         alert("pilot name and copilot name must containg only alphabets!");
-         event.preventDefault();
-      }*/
-      
-      var letters = /^[A-Za-z]+$/;
-      if((pilotName.value.match(letters)) === false  || (copilotName.value.match(letters)) === false){
+ 
+      var letters = /^[A-Za-z ]+$/;
+      if(!pilotName.value.match(letters) || !copilotName.value.match(letters)){
          console.log(pilotName.value);
          console.log(copilotName.value);
          alert("pilot name and copilot name must containg only alphabets!");
          event.preventDefault();
+         return;
       }
+
+     // var letters = /^[a-zA-Z ]$/;
+       //|| !letters.test(copilotName.value))  
+      /*if (!letters.test(pilotName.value)){
+         alert("pilot name and copilot name must containg only alphabets!");
+         event.preventDefault();
+      } */
 
       let launchStatus = document.getElementById('launchStatus');
       let fuelStatus = document.getElementById('fuelStatus');         
@@ -88,14 +87,6 @@ window.addEventListener("load", function(){
       pilotStatus.textContent = `Pilot ${pilotName.value} is ready for launch`;
       copilotStatus.textContent = `CoPilot ${copilotName.value} is ready for launch`;
       
-/*   if(Number(fuelLevel.value) >= 10000 && Number(cargoMass.value <= 10000)){
-      faultyItems.style.visibility = "visible";
-      launchStatus.style.color = 'green';
-      launchStatus.textContent = "Shuttle is ready for launch";
-       //  event.preventDefault();
-
-   } else {    
-*/
       let isFuelLevelEnough = true;
 
       if(Number(fuelLevel.value) <10000){
@@ -118,14 +109,14 @@ window.addEventListener("load", function(){
          event.preventDefault();
       }
 
+     // if (pilotName.value === ""){}
+
       if (isCargoMassRight === true && isFuelLevelEnough === true){
          faultyItems.style.visibility = "visible";
          launchStatus.style.color = 'green';
          launchStatus.textContent = "Shuttle is ready for launch";
          event.preventDefault();   
       }
-
-  // }
       
    });  
 
